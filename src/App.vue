@@ -61,14 +61,13 @@ export default {
         this.keyboards,
         (acc, value, key) => {
           let split = key.lastIndexOf('/');
+          let name = key.slice(0, split);
           key = {
-            name: key.slice(0, split),
+            name,
             key: key,
             layout: key.slice(split + 1, key.length),
             title: `Keyboard: ${key[0]} Layout: ${key[1]}`,
-            url: `https://github.com/qmk/qmk_firmware/tree/master/keyboards/${
-              key[0]
-            }/keymaps/default`,
+            url: `https://github.com/qmk/qmk_firmware/tree/master/keyboards/${name}/keymaps/default`,
           };
           if (value) {
             acc.good[key.key] = key;
