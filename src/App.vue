@@ -48,7 +48,7 @@ export default {
     };
   },
   mounted() {
-    axios.get('http://api.qmk.fm/v1/keyboards/build_status').then((res) => {
+    axios.get('https://api.qmk.fm/v1/keyboards/build_status').then((res) => {
       if (res.status === 200) {
         this.keyboards = res.data;
         this.sortKeyboards();
