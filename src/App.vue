@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <h1>QMK API Keyboard Status</h1>
+    <input
+      v-model="filter"
+      class="keyboard-filter"
+      placeholder="search keyboards"
+      @input="filterKeyboards" >
     <h3>Builds Failing ({{ sortedKeyboards.badlist.length }})</h3>
     <div class="build-status">
       <div
@@ -45,6 +50,7 @@ export default {
         goodlist: [],
         badlist: [],
       },
+      filter: '',
     };
   },
   mounted() {
@@ -56,12 +62,18 @@ export default {
     });
   },
   methods: {
+    filterKeyboards() {
+      this.sortKeyboards();
+    },
     sortKeyboards() {
       let obj = reduce(
         this.keyboards,
         (acc, value, key) => {
           let split = key.lastIndexOf('/');
           let name = key.slice(0, split);
+          if (this.filter !=='' && !name.includes(this.filter)) {
+            return acc;
+          }
           key = {
             name,
             key: key,
@@ -122,5 +134,10 @@ export default {
 }
 .keyboard-failed > a {
   color: #eee;
+}
+.keyboard-filter {
+  padding: 10px;
+  width: 20%;
+  font-size: 1.1rem;
 }
 </style>
