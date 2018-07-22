@@ -71,7 +71,10 @@ export default {
         (acc, value, key) => {
           let split = key.lastIndexOf('/');
           let name = key.slice(0, split);
-          if (this.filter !== '' && !name.includes(this.filter)) {
+          if (
+            this.filter !== '' &&
+            !name.toLowerCase().includes(this.filter.toLowerCase())
+          ) {
             // filter out keyboards based on their name
             return acc;
           }
@@ -141,13 +144,13 @@ export default {
   width: 20%;
   font-size: 1.1rem;
 }
-@media(max-width: 640px) {
-.build-status {
-  display: grid;
-  grid-template: 1fr / 48% 48%;
-}
-.keyboard-filter {
-  width: 80%;
-}
+@media (max-width: 640px) {
+  .build-status {
+    display: grid;
+    grid-template: 1fr / 48% 48%;
+  }
+  .keyboard-filter {
+    width: 80%;
+  }
 }
 </style>
