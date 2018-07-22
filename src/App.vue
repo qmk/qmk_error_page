@@ -94,10 +94,8 @@ export default {
         },
         {good: {}, bad: {}, goodlist: [], badlist: []}
       );
-      obj.goodlist = keys(obj.good);
-      obj.badlist = keys(obj.bad);
-      obj.goodlist = obj.goodlist.sort();
-      obj.badlist = obj.badlist.sort();
+      obj.goodlist = keys(obj.good).sort();
+      obj.badlist = keys(obj.bad).sort();
       this.sortedKeyboards = obj;
     },
   },
