@@ -12,8 +12,11 @@
         v-for="k in sortedKeyboards.badlist"
         :key="sortedKeyboards.bad[k].key"
         :title="sortedKeyboards.bad[k].title"
-        class="keyboard-status keyboard-failed">
-        <a :href="sortedKeyboards.bad[k].url">
+        class="keyboard-status keyboard-failed"
+        @click="showErrors(k)"
+      >
+        <a
+          :href="sortedKeyboards.bad[k].url">
           {{ sortedKeyboards.bad[k].name }}
         </a> <br>
         {{ sortedKeyboards.bad[k].layout }}
@@ -30,6 +33,20 @@
           {{ sortedKeyboards.good[k].name }}
         </a> <br>
         {{ sortedKeyboards.good[k].layout }}
+      </div>
+    </div>
+    <div
+      v-show="showErrorPane"
+      class="error-pane"
+      @click="hideErrors"
+    >
+      <div class="error-title">
+        <h4>Detailed Error Log</h4>
+      </div>
+      <div class="error-text">
+        <pre>
+         {{ errorLog }}
+        </pre>
       </div>
     </div>
   </div>
@@ -50,6 +67,9 @@ export default {
         goodlist: [],
         badlist: [],
       },
+      buildLog: {},
+      errorLog: '',
+      showErrorPane: false,
       filter: '',
     };
   },
@@ -60,8 +80,20 @@ export default {
         this.sortKeyboards();
       }
     });
+    axios.get('https://api.qmk.fm/v1/keyboards/build_log').then((res) => {
+      if (res.status === 200) {
+        this.buildLog = res.data;
+      }
+    });
   },
   methods: {
+    showErrors(key) {
+      this.errorLog = this.buildLog[key].message;
+      this.showErrorPane = true;
+    },
+    hideErrors() {
+      this.showErrorPane = false;
+    },
     filterKeyboards() {
       this.sortKeyboards();
     },
@@ -130,6 +162,7 @@ export default {
 .keyboard-failed {
   background: #b22222;
   color: #eee;
+  cursor: help;
 }
 .keyboard-passed > a {
   color: #eee;
@@ -142,6 +175,31 @@ export default {
   width: 20%;
   font-size: 1.1rem;
 }
+.error-pane {
+  position: fixed;
+  top: 3%;
+  display: grid;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 80%;
+  height: 90%;
+  grid-template: 50px 1fr / 100%;
+  background: #fffff0f5;
+  overflow-y: scroll;
+  border-radius: 5px;
+}
+
+.error-title {
+  grid-column: 1;
+  grid-row: 1;
+}
+.error-text {
+  grid-column: 1;
+  grid-row: 2;
+  cursor: pointer;
+}
+
 @media (max-width: 640px) {
   .build-status {
     display: grid;
