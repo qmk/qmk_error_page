@@ -114,13 +114,14 @@ export default {
             name,
             key: key,
             layout: key.slice(split + 1, key.length),
-            title: `Keyboard: ${key[0]} Layout: ${key[1]}`,
             url: `https://github.com/qmk/qmk_firmware/tree/master/keyboards/${name}/keymaps/default`,
           };
+          key.title = `Keyboard: ${key.name} Layout: ${key.layout}`;
           if (value) {
             acc.good[key.key] = key;
           } else {
             acc.bad[key.key] = key;
+            key.title += '\nClick for build log';
           }
           return acc;
         },
