@@ -28,7 +28,9 @@
         v-for="k in sortedKeyboards.goodlist"
         :key="sortedKeyboards.good[k].key"
         :title="sortedKeyboards.good[k].title"
-        class="keyboard-status keyboard-passed">
+        class="keyboard-status keyboard-passed"
+        @click="showErrors(k)"
+      >
         <a :href="sortedKeyboards.good[k].url">
           {{ sortedKeyboards.good[k].name }}
         </a> <br>
@@ -74,15 +76,10 @@ export default {
     };
   },
   mounted() {
-    axios.get('https://api.qmk.fm/v1/keyboards/build_status').then((res) => {
-      if (res.status === 200) {
-        this.keyboards = res.data;
-        this.sortKeyboards();
-      }
-    });
     axios.get('https://api.qmk.fm/v1/keyboards/build_log').then((res) => {
       if (res.status === 200) {
         this.buildLog = res.data;
+        this.sortKeyboards();
       }
     });
   },
@@ -99,7 +96,7 @@ export default {
     },
     sortKeyboards() {
       let obj = reduce(
-        this.keyboards,
+        this.buildLog,
         (acc, value, key) => {
           let split = key.lastIndexOf('/');
           let name = key.slice(0, split);
@@ -110,18 +107,19 @@ export default {
             // filter out keyboards based on their name
             return acc;
           }
+          let lastTested = new Date(value.last_tested * 1000);
           key = {
             name,
             key: key,
             layout: key.slice(split + 1, key.length),
-            url: `https://github.com/qmk/qmk_firmware/tree/master/keyboards/${name}/keymaps/default`,
+            compiler_output: value.message,
+            url: `https://github.com/qmk/qmk_firmware/tree/master/keyboards/${name}`,
           };
-          key.title = `Keyboard: ${key.name} Layout: ${key.layout}`;
-          if (value) {
+          key.title = `Last Tested: ` + lastTested.toISOString();
+          if (value.works) {
             acc.good[key.key] = key;
           } else {
             acc.bad[key.key] = key;
-            key.title += '\nClick for build log';
           }
           return acc;
         },
