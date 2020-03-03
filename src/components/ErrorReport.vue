@@ -12,6 +12,7 @@
       <h2>Loading Data</h2>
     </div>
     <div v-if="!loading">
+      <h5>Loaded in {{ loadtime / 1000 }} seconds</h5>
       <h3>Builds Failing ({{ sortedKeyboards.badlist.length }})</h3>
       <div class="build-status">
         <div
@@ -80,10 +81,12 @@ export default {
       buildLog: {},
       errorLog: '',
       showErrorPane: false,
-      filter: ''
+      filter: '',
+      loadtime: 0
     };
   },
   mounted() {
+    const start = performance.now();
     axios
       .get('https://api.qmk.fm/v1/keyboards/build_log')
       .then(res => {
@@ -94,6 +97,7 @@ export default {
       })
       .then(() => {
         this.loading = false;
+        this.loadtime = performance.now() - start;
       });
   },
   methods: {
