@@ -22,11 +22,9 @@
           class="keyboard-status keyboard-failed"
           @click="showErrors(k)"
         >
-          <a :href="sortedKeyboards.bad[k].url">
-            {{ sortedKeyboards.bad[k].name }}
-          </a>
+          {{ sortedKeyboards.bad[k].vendor }}
           <br />
-          {{ sortedKeyboards.bad[k].layout }}
+          {{ sortedKeyboards.bad[k].keyboard }}
         </div>
       </div>
       <h3>Builds Passing ({{ sortedKeyboards.goodlist.length }})</h3>
@@ -38,11 +36,9 @@
           class="keyboard-status keyboard-passed"
           @click="showErrors(k)"
         >
-          <a :href="sortedKeyboards.good[k].url">
-            {{ sortedKeyboards.good[k].name }}
-          </a>
+          {{ sortedKeyboards.good[k].vendor }}
           <br />
-          {{ sortedKeyboards.good[k].layout }}
+          {{ sortedKeyboards.good[k].keyboard }}
         </div>
       </div>
       <div v-show="showErrorPane" class="error-pane" @click="hideErrors">
@@ -115,11 +111,13 @@ export default {
       let obj = reduce(
         this.buildLog,
         (acc, value, key) => {
-          let split = key.lastIndexOf('/');
-          let name = key.slice(0, split);
+          let split = key.indexOf('/');
+          if (split < 0) {
+            split = key.length;
+          }
           if (
             this.filter !== '' &&
-            !name.toLowerCase().includes(this.filter.toLowerCase())
+            !key.toLowerCase().includes(this.filter.toLowerCase())
           ) {
             // filter out keyboards based on their name
             return acc;
@@ -128,9 +126,9 @@ export default {
           key = {
             name,
             key: key,
-            layout: key.slice(split + 1, key.length),
-            compiler_output: value.message,
-            url: `https://github.com/qmk/qmk_firmware/tree/master/keyboards/${name}`
+            vendor: key.slice(0, split),
+            keyboard: key.slice(split + 1, key.length),
+            compiler_output: value.message
           };
           key.title = `Last Tested: ` + lastTested.toISOString();
           if (value.works) {
