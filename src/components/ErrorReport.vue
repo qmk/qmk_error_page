@@ -115,6 +115,10 @@ export default {
           if (split < 0) {
             split = key.length;
           }
+          let keyboard = key.slice(split + 1, key.length);
+          if (keyboard == '') {
+            keyboard = '&nbsp;';
+          }
           if (
             this.filter !== '' &&
             !key.toLowerCase().includes(this.filter.toLowerCase())
@@ -127,7 +131,7 @@ export default {
             name,
             key: key,
             vendor: key.slice(0, split),
-            keyboard: key.slice(split + 1, key.length),
+            keyboard: keyboard,
             compiler_output: value.message
           };
           key.title = `Last Tested: ` + lastTested.toISOString();
