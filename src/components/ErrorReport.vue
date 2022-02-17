@@ -72,20 +72,20 @@ export default {
         good: {},
         bad: {},
         goodlist: [],
-        badlist: []
+        badlist: [],
       },
       buildLog: {},
       errorLog: '',
       showErrorPane: false,
       filter: '',
-      loadtime: 0
+      loadtime: 0,
     };
   },
   mounted() {
     const start = performance.now();
     axios
       .get('https://api.qmk.fm/v1/keyboards/build_log')
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
           this.buildLog = res.data;
           this.sortKeyboards();
@@ -128,7 +128,7 @@ export default {
             key: key,
             vendor: key.slice(0, split),
             keyboard: key.slice(split + 1, key.length),
-            compiler_output: value.message
+            compiler_output: value.message,
           };
           key.title = `Last Tested: ` + lastTested.toISOString();
           if (value.works) {
@@ -143,8 +143,8 @@ export default {
       obj.goodlist = keys(obj.good).sort();
       obj.badlist = keys(obj.bad).sort();
       this.sortedKeyboards = obj;
-    }
-  }
+    },
+  },
 };
 </script>
 

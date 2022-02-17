@@ -8,7 +8,7 @@
 import ErrorReport from '@/components/ErrorReport';
 export default {
   name: 'App',
-  components: { ErrorReport }
+  components: { ErrorReport },
 };
 </script>
 
