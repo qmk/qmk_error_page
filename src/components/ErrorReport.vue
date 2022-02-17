@@ -153,6 +153,7 @@ export default {
 .build-status {
   display: grid;
   grid-template: 1fr / repeat(5, 20%);
+  grid-auto-rows: 1fr;
 }
 .keyboard-status {
   margin: 5px;
@@ -161,6 +162,10 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   border-radius: 8px;
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
 }
 .keyboard-passed {
   background: #2e8b57;
@@ -210,7 +215,7 @@ export default {
 @media (max-width: 640px) {
   .build-status {
     display: grid;
-    grid-template: 1fr / 48% 48%;
+    grid-template: 1fr / 50% 50%;
   }
   .keyboard-filter {
     width: 80%;
