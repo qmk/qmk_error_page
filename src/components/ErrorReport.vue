@@ -152,7 +152,7 @@ export default {
 <style scoped>
 .build-status {
   display: grid;
-  grid-template: 1fr / 19% 19% 19% 19% 19%;
+  grid-template: 1fr / repeat(5, 20%);
 }
 .keyboard-status {
   margin: 5px;
