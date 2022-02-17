@@ -162,7 +162,7 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   border-radius: 8px;
-  display: flex;
+  display: grid;
   align-self: stretch;
   align-items: center;
   justify-content: center;
