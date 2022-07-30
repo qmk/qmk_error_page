@@ -200,6 +200,8 @@ export default {
   background: #fffff0f5;
   overflow-y: scroll;
   border-radius: 5px;
+  backdrop-filter: blur(10px);
+  box-shadow: rgba(0,0,0,0.1) 0 5px 30px;
 }
 
 .error-title {
