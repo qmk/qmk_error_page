@@ -41,7 +41,8 @@
           {{ sortedKeyboards.good[k].keyboard }}
         </div>
       </div>
-      <div v-show="showErrorPane" class="error-pane" @click="hideErrors">
+      <div v-show="showErrorPane" class="backdrop" @click="hideErrors"></div>
+      <div v-show="showErrorPane" class="error-pane">
         <div class="error-title">
           <h4>Detailed Error Log</h4>
         </div>
@@ -198,7 +199,6 @@ export default {
   height: 90%;
   grid-template: 50px 1fr / 100%;
   background: #fffff0f5;
-  overflow-y: scroll;
   border-radius: 5px;
   backdrop-filter: blur(10px);
   box-shadow: rgba(0,0,0,0.1) 0 5px 30px;
@@ -211,7 +211,20 @@ export default {
 .error-text {
   grid-column: 1;
   grid-row: 2;
-  cursor: pointer;
+  text-align: left;
+  overflow-y: scroll;
+  margin: 6px;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
 }
 
 @media (max-width: 640px) {
