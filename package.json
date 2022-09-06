@@ -13,9 +13,9 @@
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "axios": "^0.26.0",
     "core-js": "^3.6.4",
-    "javascript-time-ago": "^2.5.7",
     "lodash": "^4.17.21",
     "minimist": "^1.2.5",
+    "timeago.js": "^4.0.2",
     "vue": "^2.6.11"
   },
   "devDependencies": {

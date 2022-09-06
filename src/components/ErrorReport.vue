@@ -60,8 +60,7 @@
 import axios from 'axios';
 import reduce from 'lodash/reduce';
 import keys from 'lodash/keys';
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
+import { format } from 'timeago.js';
 
 export default {
   name: 'ErrorReport',
@@ -81,13 +80,10 @@ export default {
       showErrorPane: false,
       filter: '',
       loadtime: 0,
-      timeAgo: null,
     };
   },
   mounted() {
     const start = performance.now();
-    TimeAgo.addDefaultLocale(en);
-    this.timeAgo = new TimeAgo('en-US');
     axios
       .get('https://api.qmk.fm/v1/keyboards/build_log')
       .then((res) => {
@@ -135,7 +131,7 @@ export default {
             keyboard: key.slice(split + 1, key.length),
             compiler_output: value.message,
           };
-          key.title = `Last tested ${this.timeAgo.format(
+          key.title = `Last tested ${format(
             lastTested
           )} (${lastTested.toLocaleString()})
 ${lastTested.toISOString()}`;
