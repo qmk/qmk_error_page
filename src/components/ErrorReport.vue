@@ -61,6 +61,7 @@
 import axios from 'axios';
 import reduce from 'lodash/reduce';
 import keys from 'lodash/keys';
+import { format } from 'timeago.js';
 
 export default {
   name: 'ErrorReport',
@@ -131,7 +132,10 @@ export default {
             keyboard: key.slice(split + 1, key.length),
             compiler_output: value.message,
           };
-          key.title = `Last Tested: ` + lastTested.toISOString();
+          key.title = `Last tested ${format(
+            lastTested
+          )} (${lastTested.toLocaleString()})
+${lastTested.toISOString()}`;
           if (value.works) {
             acc.good[key.key] = key;
           } else {
@@ -201,7 +205,7 @@ export default {
   background: #fffff0f5;
   border-radius: 5px;
   backdrop-filter: blur(10px);
-  box-shadow: rgba(0,0,0,0.1) 0 5px 30px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 5px 30px;
 }
 
 .error-title {
