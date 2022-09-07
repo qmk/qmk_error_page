@@ -47,10 +47,7 @@
           <h4>Detailed Error Log</h4>
         </div>
         <div class="error-text">
-          <pre>
-         {{ errorLog }}
-        </pre
-          >
+          <pre v-html="errorLog"></pre>
         </div>
       </div>
     </div>
@@ -62,6 +59,7 @@ import axios from 'axios';
 import reduce from 'lodash/reduce';
 import keys from 'lodash/keys';
 import { format } from 'timeago.js';
+import Convert from 'ansi-to-html';
 
 export default {
   name: 'ErrorReport',
@@ -81,6 +79,7 @@ export default {
       showErrorPane: false,
       filter: '',
       loadtime: 0,
+      ansiConverter: new Convert({ escapeXML: true }),
     };
   },
   mounted() {
@@ -100,7 +99,7 @@ export default {
   },
   methods: {
     showErrors(key) {
-      this.errorLog = this.buildLog[key].message;
+      this.errorLog = this.ansiConverter.toHtml(this.buildLog[key].message);
       this.showErrorPane = true;
     },
     hideErrors() {
