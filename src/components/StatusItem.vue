@@ -17,24 +17,27 @@ import { format } from 'timeago.js';
 export default {
   name: 'StatusItem',
   components: {},
-  props: ['keyboardItem'],
+  props: {
+    keyboardItem: Object,
+  },
   computed: {
     keyboardName() {
-      let firstSlash = this.keyboardItem.key.indexOf('/');
+      const { key } = this.keyboardItem;
+      const firstSlash = key.indexOf('/');
+
       if (firstSlash < 0) return '';
-      return this.keyboardItem.key.slice(
-        firstSlash + 1,
-        this.keyboardItem.key.length
-      );
+
+      return key.slice(firstSlash + 1, key.length);
     },
     vendorName() {
       return this.keyboardItem.key.split('/')[0];
     },
     lastTestedTitle() {
+      const { lastTested } = this.keyboardItem;
       return `Last tested: ${format(
-        this.keyboardItem.lastTested
-      )} (${this.keyboardItem.lastTested.toLocaleString()})
-${this.keyboardItem.lastTested.toISOString()}`;
+        lastTested
+      )} (${lastTested.toLocaleString()})
+${lastTested.toISOString()}`;
     },
   },
 };

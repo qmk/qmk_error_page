@@ -17,7 +17,9 @@ import Convert from 'ansi-to-html';
 
 export default {
   name: 'ErrorPane',
-  props: ['errorLog'],
+  props: {
+    errorLog: String,
+  },
   data: () => {
     return {
       ansiConverter: new Convert({ escapeXML: true }),

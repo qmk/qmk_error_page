@@ -18,7 +18,9 @@ import StatusItem from '@/components/StatusItem';
 export default {
   name: 'BuildList',
   components: { StatusItem },
-  props: ['list'],
+  props: {
+    list: Array,
+  },
 };
 </script>
 
