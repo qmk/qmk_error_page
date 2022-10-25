@@ -72,4 +72,10 @@ export default {
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
 }
+
+@media (prefers-color-scheme: dark) {
+  .error-pane {
+    background: #303030f5;
+  }
+}
 </style>
