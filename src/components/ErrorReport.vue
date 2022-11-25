@@ -12,10 +12,18 @@
     </div>
     <div v-if="!loading">
       <h5>Loaded in {{ loadTime / 1000 }} seconds</h5>
-      <BuildList :list="filteredBadKeyboards" @show-error-pane="showErrors">
+      <BuildList
+        :list="failingKeyboards"
+        :filter="filter"
+        @show-error-pane="showErrors"
+      >
         Builds Failing
       </BuildList>
-      <BuildList :list="filteredGoodKeyboards" @show-error-pane="showErrors">
+      <BuildList
+        :list="passingKeyboards"
+        :filter="filter"
+        @show-error-pane="showErrors"
+      >
         Builds Passing
       </BuildList>
       <ErrorPane
@@ -50,14 +58,6 @@ export default {
       showErrorPane: false,
     };
   },
-  computed: {
-    filteredGoodKeyboards() {
-      return this.passingKeyboards.filter(this.filterKeyboards);
-    },
-    filteredBadKeyboards() {
-      return this.failingKeyboards.filter(this.filterKeyboards);
-    },
-  },
   mounted() {
     const start = performance.now();
     axios
@@ -80,9 +80,6 @@ export default {
     },
     hideErrors() {
       this.showErrorPane = false;
-    },
-    filterKeyboards(k) {
-      return k.key.toLowerCase().includes(this.filter.toLowerCase());
     },
     compareKeyboardNames(k1, k2) {
       if (k1.key < k2.key) {

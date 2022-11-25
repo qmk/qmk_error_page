@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h3><slot></slot> ({{ list.length }})</h3>
+    <h3><slot></slot> ({{ filteredItems.length }})</h3>
     <div class="build-status">
       <StatusItem
-        v-for="k in list"
+        v-for="k in filteredItems"
         :keyboardItem="k"
         :key="k.key"
         v-on="$listeners"
@@ -20,6 +20,14 @@ export default {
   components: { StatusItem },
   props: {
     list: Array,
+    filter: String,
+  },
+  computed: {
+    filteredItems() {
+      return this.list.filter((k) => {
+        return k.key.toLowerCase().includes(this.filter.toLowerCase());
+      });
+    },
   },
 };
 </script>
