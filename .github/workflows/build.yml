@@ -23,6 +23,6 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@4.1.4
       with:
         branch: gh-pages
-        folder: .build/docs
+        folder: dist
         git-config-name: QMK Bot
         git-config-email: hello@qmk.fm
