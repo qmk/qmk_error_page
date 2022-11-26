@@ -2,6 +2,8 @@ name: Generate Docs
 
 on:
   push:
+    branches:
+    - main
   pull_request:
 
 jobs:
