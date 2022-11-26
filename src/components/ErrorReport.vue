@@ -12,7 +12,7 @@
       <h2>Loading Data</h2>
     </div>
     <div v-if="!loading">
-      <h5>Loaded in {{ loadtime / 1000 }} seconds</h5>
+      <h5>Loaded in {{ (loadtime / 1000).toFixed(2) }} seconds</h5>
       <h3>Builds Failing ({{ sortedKeyboards.badlist.length }})</h3>
       <div class="build-status">
         <div
