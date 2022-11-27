@@ -1,16 +1,16 @@
 <template>
   <div>
     <h1>QMK API Keyboard Status</h1>
-    <input
-      v-model="filter"
-      class="keyboard-filter"
-      placeholder="filter keyboards"
-    />
-    <div v-show="loading" class="loading">
+    <div v-if="loading" class="loading">
       <font-awesome-icon icon="atom" spin size="6x" fixed-width />
-      <h2>Loading Data</h2>
+      <h2>Loading Data… {{ loadProgress }}%</h2>
     </div>
-    <div v-if="!loading">
+    <div v-else>
+      <input
+        v-model="filter"
+        class="keyboard-filter"
+        placeholder="filter keyboards"
+      />
       <h5>Loaded in {{ (loadTime / 1000).toFixed(2) }} seconds</h5>
       <BuildList
         :list="failingKeyboards"
@@ -50,6 +50,7 @@ export default {
     return {
       loading: true,
       loadTime: 0,
+      loadProgress: 0,
       filter: '',
       passingKeyboards: [],
       failingKeyboards: [],
@@ -59,21 +60,28 @@ export default {
     };
   },
   mounted() {
-    const start = performance.now();
-    axios
-      .get('https://api.qmk.fm/v1/keyboards/build_log')
-      .then((res) => {
-        if (res.status === 200) {
-          this.buildLog = res.data;
-          this.binKeyboards();
-        }
-      })
-      .then(() => {
-        this.loading = false;
-        this.loadTime = performance.now() - start;
-      });
+    this.downloadBuildLog();
   },
   methods: {
+    downloadBuildLog() {
+      const start = performance.now();
+      axios
+        .get('https://api.qmk.fm/v1/keyboards/build_log', {
+          onDownloadProgress: (e) => {
+            this.loadProgress = Math.floor((e.loaded / e.total) * 100);
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            this.buildLog = res.data;
+            this.binKeyboards();
+          }
+        })
+        .then(() => {
+          this.loading = false;
+          this.loadTime = performance.now() - start;
+        });
+    },
     showErrors(key) {
       this.errorLog = this.buildLog[key].message;
       this.showErrorPane = true;
