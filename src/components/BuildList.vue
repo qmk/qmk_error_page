@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3><slot></slot> ({{ filteredItems.length }})</h3>
+    <h3><slot /> ({{ filteredItems.length }})</h3>
     <div class="build-status">
       <StatusItem
         v-for="k in filteredItems"

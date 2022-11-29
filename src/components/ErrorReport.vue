@@ -41,7 +41,6 @@ import ErrorPane from '@/components/ErrorPane';
 
 import axios from 'axios';
 import reduce from 'lodash/reduce';
-import keys from 'lodash/keys';
 
 export default {
   name: 'ErrorReport',
