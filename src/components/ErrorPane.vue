@@ -13,24 +13,21 @@
 </template>
 
 <script>
-import Convert from 'ansi-to-html';
+import Convert from 'ansi-to-html'
+
+const ansiConverter = new Convert({ escapeXML: true })
 
 export default {
   name: 'ErrorPane',
   props: {
-    errorLog: String,
-  },
-  data: () => {
-    return {
-      ansiConverter: new Convert({ escapeXML: true }),
-    };
+    errorLog: String
   },
   computed: {
     colorizedErrorLog() {
-      return this.ansiConverter.toHtml(this.errorLog);
-    },
-  },
-};
+      return ansiConverter.toHtml(this.errorLog)
+    }
+  }
+}
 </script>
 
 <style scoped>

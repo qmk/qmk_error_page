@@ -12,34 +12,32 @@
 </template>
 
 <script>
-import { format } from 'timeago.js';
+import { format } from 'timeago.js'
 
 export default {
   name: 'StatusItem',
   props: {
-    keyboardItem: Object,
+    keyboardItem: Object
   },
   computed: {
     keyboardName() {
-      const { key } = this.keyboardItem;
-      const firstSlash = key.indexOf('/');
+      const { key } = this.keyboardItem
+      const firstSlash = key.indexOf('/')
 
-      if (firstSlash < 0) return '';
+      if (firstSlash < 0) return ''
 
-      return key.slice(firstSlash + 1, key.length);
+      return key.slice(firstSlash + 1, key.length)
     },
     vendorName() {
-      return this.keyboardItem.key.split('/')[0];
+      return this.keyboardItem.key.split('/')[0]
     },
     lastTestedTitle() {
-      const { lastTested } = this.keyboardItem;
-      return `Last tested: ${format(
-        lastTested
-      )} (${lastTested.toLocaleString()})
-${lastTested.toISOString()}`;
-    },
-  },
-};
+      const { lastTested } = this.keyboardItem
+      return `Last tested: ${format(lastTested)} (${lastTested.toLocaleString()})
+${lastTested.toISOString()}`
+    }
+  }
+}
 </script>
 
 <style scoped>

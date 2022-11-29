@@ -6,41 +6,25 @@
       <h2>Loading Data… {{ loadProgress }}%</h2>
     </div>
     <div v-else>
-      <input
-        v-model="filter"
-        class="keyboard-filter"
-        placeholder="filter keyboards"
-      />
+      <input v-model="filter" class="keyboard-filter" placeholder="filter keyboards" />
       <h5>Loaded in {{ (loadTime / 1000).toFixed(2) }} seconds</h5>
-      <BuildList
-        :list="failingKeyboards"
-        :filter="filter"
-        @show-error-pane="showErrors"
-      >
+      <BuildList :list="failingKeyboards" :filter="filter" @show-error-pane="showErrors">
         Builds Failing
       </BuildList>
-      <BuildList
-        :list="passingKeyboards"
-        :filter="filter"
-        @show-error-pane="showErrors"
-      >
+      <BuildList :list="passingKeyboards" :filter="filter" @show-error-pane="showErrors">
         Builds Passing
       </BuildList>
-      <ErrorPane
-        v-show="showErrorPane"
-        :error-log="errorLog"
-        @backdrop-clicked="hideErrors"
-      />
+      <ErrorPane v-show="showErrorPane" :error-log="errorLog" @backdrop-clicked="hideErrors" />
     </div>
   </div>
 </template>
 
 <script>
-import BuildList from '@/components/BuildList';
-import ErrorPane from '@/components/ErrorPane';
+import BuildList from '@/components/BuildList.vue'
+import ErrorPane from '@/components/ErrorPane.vue'
 
-import axios from 'axios';
-import reduce from 'lodash/reduce';
+import axios from 'axios'
+import reduce from 'lodash/reduce'
 
 export default {
   name: 'ErrorReport',
@@ -55,46 +39,46 @@ export default {
       failingKeyboards: [],
       buildLog: {},
       errorLog: '',
-      showErrorPane: false,
-    };
+      showErrorPane: false
+    }
   },
   mounted() {
-    this.downloadBuildLog();
+    this.downloadBuildLog()
   },
   methods: {
     downloadBuildLog() {
-      const start = performance.now();
+      const start = performance.now()
       axios
         .get('https://api.qmk.fm/v1/keyboards/build_log', {
           onDownloadProgress: (e) => {
-            this.loadProgress = Math.floor((e.loaded / e.total) * 100);
-          },
+            this.loadProgress = Math.floor((e.loaded / e.total) * 100)
+          }
         })
         .then((res) => {
           if (res.status === 200) {
-            this.buildLog = res.data;
-            this.binKeyboards();
+            this.buildLog = res.data
+            this.binKeyboards()
           }
         })
         .then(() => {
-          this.loading = false;
-          this.loadTime = performance.now() - start;
-        });
+          this.loading = false
+          this.loadTime = performance.now() - start
+        })
     },
     showErrors(key) {
-      this.errorLog = this.buildLog[key].message;
-      this.showErrorPane = true;
+      this.errorLog = this.buildLog[key].message
+      this.showErrorPane = true
     },
     hideErrors() {
-      this.showErrorPane = false;
+      this.showErrorPane = false
     },
     compareKeyboardNames(k1, k2) {
       if (k1.key < k2.key) {
-        return -1;
+        return -1
       } else if (k1.key > k2.key) {
-        return 1;
+        return 1
       } else {
-        return 0;
+        return 0
       }
     },
     binKeyboards() {
@@ -104,24 +88,24 @@ export default {
           let statusItem = {
             passed: value.works,
             key: key,
-            lastTested: new Date(value.last_tested * 1000),
-          };
-          if (value.works) {
-            acc.good.push(statusItem);
-          } else {
-            acc.bad.push(statusItem);
+            lastTested: new Date(value.last_tested * 1000)
           }
-          return acc;
+          if (value.works) {
+            acc.good.push(statusItem)
+          } else {
+            acc.bad.push(statusItem)
+          }
+          return acc
         },
         { good: [], bad: [] }
-      );
-      obj.good.sort(this.compareKeyboardNames);
-      obj.bad.sort(this.compareKeyboardNames);
-      this.passingKeyboards = obj.good;
-      this.failingKeyboards = obj.bad;
-    },
-  },
-};
+      )
+      obj.good.sort(this.compareKeyboardNames)
+      obj.bad.sort(this.compareKeyboardNames)
+      this.passingKeyboards = obj.good
+      this.failingKeyboards = obj.bad
+    }
+  }
+}
 </script>
 
 <style scoped>
