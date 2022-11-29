@@ -8,14 +8,13 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.27",
-    "@fortawesome/free-solid-svg-icons": "^5.12.1",
-    "@fortawesome/vue-fontawesome": "^0.1.9",
+    "@fortawesome/fontawesome-svg-core": "^6.2.1",
+    "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@fortawesome/vue-fontawesome": "^2.0.9",
     "ansi-to-html": "^0.7.2",
-    "axios": "^0.26.0",
+    "axios": "^1.2.0",
     "core-js": "^3.6.4",
     "lodash": "^4.17.21",
-    "minimist": "^1.2.6",
     "timeago.js": "^4.0.2",
     "vue": "^2.6.11"
   },

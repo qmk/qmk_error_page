@@ -16,7 +16,6 @@ import { format } from 'timeago.js';
 
 export default {
   name: 'StatusItem',
-  components: {},
   props: {
     keyboardItem: Object,
   },
