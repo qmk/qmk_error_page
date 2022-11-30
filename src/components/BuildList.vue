@@ -2,34 +2,29 @@
   <div>
     <h3><slot /> ({{ filteredItems.length }})</h3>
     <div class="build-status">
-      <StatusItem
-        v-for="k in filteredItems"
-        :keyboardItem="k"
-        :key="k.key"
-        v-on="$listeners"
-      />
+      <StatusItem v-for="k in filteredItems" :keyboardItem="k" :key="k.key" v-bind="$attrs" />
     </div>
   </div>
 </template>
 
 <script>
-import StatusItem from '@/components/StatusItem';
+import StatusItem from '@/components/StatusItem.vue'
 
 export default {
   name: 'BuildList',
   components: { StatusItem },
   props: {
     list: Array,
-    filter: String,
+    filter: String
   },
   computed: {
     filteredItems() {
       return this.list.filter((k) => {
-        return k.key.toLowerCase().includes(this.filter.toLowerCase());
-      });
-    },
-  },
-};
+        return k.key.toLowerCase().includes(this.filter.toLowerCase())
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>

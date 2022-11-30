@@ -3,49 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
-    "@fortawesome/vue-fontawesome": "^2.0.9",
+    "@fortawesome/vue-fontawesome": "^3.0.2",
     "ansi-to-html": "^0.7.2",
     "axios": "^1.2.0",
-    "core-js": "^3.6.4",
     "lodash": "^4.17.21",
     "timeago.js": "^4.0.2",
-    "vue": "^2.6.11"
+    "vue": "^3.2.45"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~5.0.1",
-    "@vue/cli-plugin-eslint": "~5.0.1",
-    "@vue/cli-service": "~5.0.1",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^7.20",
-    "eslint-plugin-cypress": "^2.10.3",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-vue": "^7.20",
-    "vue-template-compiler": "^2.6.11"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+    "@rushstack/eslint-patch": "^1.1.4",
+    "@vitejs/plugin-vue": "^3.2.0",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "eslint": "^8.22.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "prettier": "^2.7.1",
+    "vite": "^3.2.4"
+  }
 }

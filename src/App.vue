@@ -1,15 +1,14 @@
 <template>
-  <div id="app">
-    <ErrorReport />
-  </div>
+  <ErrorReport />
 </template>
 
 <script>
-import ErrorReport from '@/components/ErrorReport';
+import ErrorReport from '@/components/ErrorReport.vue'
+
 export default {
   name: 'App',
-  components: { ErrorReport },
-};
+  components: { ErrorReport }
+}
 </script>
 
 <style>
