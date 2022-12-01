@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <h3><slot /> ({{ filteredItems.length }})</h3>
-    <div class="build-status">
-      <StatusItem v-for="k in filteredItems" :keyboardItem="k" :key="k.key" v-bind="$attrs" />
-    </div>
+  <h3><slot /> ({{ filteredItems.length }})</h3>
+  <div class="build-status">
+    <StatusItem v-for="k in filteredItems" :keyboardItem="k" :key="k.key" v-bind="$attrs" />
   </div>
 </template>
 
