@@ -115,9 +115,20 @@ body {
 }
 
 .keyboard-filter {
-  padding: 10px;
+  padding: 12px;
   width: 20%;
   font-size: 1.1rem;
+  color: #2c3e50;
+  background: #eee;
+  border: none;
+  border-radius: 8px;
+}
+.keyboard-filter:hover {
+  background: #ddd;
+}
+.keyboard-filter:focus {
+  outline: none;
+  background: #d0d0d0;
 }
 
 .loading {
@@ -134,6 +145,17 @@ body {
   body {
     background: #202020;
     color: #ced9e4;
+  }
+
+  .keyboard-filter {
+    background: #1c1c1c;
+    color: #ced9e4;
+  }
+  .keyboard-filter:hover {
+    background: #2c2c2c;
+  }
+  .keyboard-filter:focus {
+    background: #303030;
   }
 }
 </style>
