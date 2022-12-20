@@ -22,7 +22,7 @@ yarn install
 yarn run dev
 ```
 
-Pass `--mode=webstack` if you want to use your [local API instance](https://github.com/qmk/qmk_web_stack)) on port 5001.
+Pass `--mode=webstack` if you want to use your [local API instance](https://github.com/qmk/qmk_web_stack) on port 5001.
 
 ### Compile and Minify for Production
 
