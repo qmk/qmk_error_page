@@ -47,7 +47,7 @@ export default {
     downloadBuildLog() {
       const start = performance.now()
       axios
-        .get('https://api.qmk.fm/v1/keyboards/build_log', {
+        .get(`${import.meta.env.VITE_QMK_API_BASEURL}/v1/keyboards/build_log`, {
           onDownloadProgress: (e) => {
             this.loadProgress = Math.floor((e.loaded / e.total) * 100)
           }
