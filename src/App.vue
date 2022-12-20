@@ -13,7 +13,7 @@
     <BuildList :list="passingKeyboards" :filter="filter" @show-error-pane="showErrors">
       Builds Passing
     </BuildList>
-    <ErrorPane v-show="showErrorPane" :error-log="errorLog" @backdrop-clicked="hideErrors" />
+    <ErrorPane :visible="showErrorPane" :error-log="errorLog" @backdrop-clicked="hideErrors" />
   </div>
 </template>
 

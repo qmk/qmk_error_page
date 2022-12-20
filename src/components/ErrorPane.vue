@@ -1,14 +1,18 @@
 <template>
   <div>
-    <div class="backdrop" @click="$emit('backdrop-clicked')"></div>
-    <div class="error-pane">
-      <div class="error-title">
-        <h4>Detailed Error Log</h4>
+    <Transition name="backdrop">
+      <div v-if="visible" class="backdrop" @click="$emit('backdrop-clicked')"></div>
+    </Transition>
+    <Transition name="error-pane">
+      <div v-if="visible" class="error-pane">
+        <div class="error-title">
+          <h4>Detailed Error Log</h4>
+        </div>
+        <div class="error-text">
+          <pre v-html="colorizedErrorLog"></pre>
+        </div>
       </div>
-      <div class="error-text">
-        <pre v-html="colorizedErrorLog"></pre>
-      </div>
-    </div>
+    </Transition>
   </div>
 </template>
 
@@ -20,7 +24,8 @@ const ansiConverter = new Convert({ escapeXML: true })
 export default {
   name: 'ErrorPane',
   props: {
-    errorLog: String
+    errorLog: String,
+    visible: Boolean
   },
   computed: {
     colorizedErrorLog() {
@@ -68,6 +73,25 @@ export default {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
+}
+
+.backdrop-enter-from,
+.backdrop-leave-to {
+  opacity: 0;
+}
+.backdrop-enter-active,
+.backdrop-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.error-pane-enter-from,
+.error-pane-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+.error-pane-enter-active,
+.error-pane-leave-active {
+  transition: all 0.1s ease;
 }
 
 @media (prefers-color-scheme: dark) {
