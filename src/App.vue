@@ -6,7 +6,7 @@
   </div>
   <div v-else>
     <input v-model="filter" id="filter" placeholder="filter keyboards" />
-    <h5>Loaded in {{ (loadTime / 1000).toFixed(2) }} seconds</h5>
+    <h5>Loaded in {{ loadTime }} seconds</h5>
     <BuildList :list="failingKeyboards" :filter="filter" @show-error-pane="showErrors">
       Builds Failing
     </BuildList>
@@ -30,7 +30,7 @@ export default {
   data: () => {
     return {
       loading: true,
-      loadTime: 0,
+      loadTime: '',
       loadProgress: 0,
       filter: '',
       passingKeyboards: [],
@@ -60,7 +60,7 @@ export default {
         })
         .then(() => {
           this.loading = false
-          this.loadTime = performance.now() - start
+          this.loadTime = ((performance.now() - start) / 1000).toFixed(2)
         })
     },
     showErrors(key) {
