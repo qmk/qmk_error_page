@@ -1,11 +1,11 @@
 <template>
   <h1>QMK API Keyboard Status</h1>
-  <div v-if="loading" class="loading">
+  <div v-if="loading" id="loading">
     <font-awesome-icon icon="atom" spin size="6x" fixed-width />
     <h2>Loading Data… {{ loadProgress }}%</h2>
   </div>
   <div v-else>
-    <input v-model="filter" class="keyboard-filter" placeholder="filter keyboards" />
+    <input v-model="filter" id="keyboard-filter" placeholder="filter keyboards" />
     <h5>Loaded in {{ (loadTime / 1000).toFixed(2) }} seconds</h5>
     <BuildList :list="failingKeyboards" :filter="filter" @show-error-pane="showErrors">
       Builds Failing
@@ -114,7 +114,7 @@ body {
   margin-top: 60px;
 }
 
-.keyboard-filter {
+#keyboard-filter {
   padding: 12px;
   width: 20%;
   font-size: 1.1rem;
@@ -123,20 +123,20 @@ body {
   border: none;
   border-radius: 8px;
 }
-.keyboard-filter:hover {
+#keyboard-filter:hover {
   background: #ddd;
 }
-.keyboard-filter:focus {
+#keyboard-filter:focus {
   outline: none;
   background: #d0d0d0;
 }
 
-.loading {
+#loading {
   margin-top: 1em;
 }
 
 @media (max-width: 640px) {
-  .keyboard-filter {
+  #keyboard-filter {
     width: 80%;
   }
 }
@@ -147,14 +147,14 @@ body {
     color: #ced9e4;
   }
 
-  .keyboard-filter {
+  #keyboard-filter {
     background: #1c1c1c;
     color: #ced9e4;
   }
-  .keyboard-filter:hover {
+  #keyboard-filter:hover {
     background: #2c2c2c;
   }
-  .keyboard-filter:focus {
+  #keyboard-filter:focus {
     background: #303030;
   }
 }

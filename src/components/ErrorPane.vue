@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <Transition name="backdrop">
-      <div v-if="visible" class="backdrop" @click="$emit('backdrop-clicked')"></div>
-    </Transition>
-    <Transition name="error-pane">
-      <div v-if="visible" class="error-pane">
-        <div class="error-title">
-          <h4>Detailed Error Log</h4>
-        </div>
-        <div class="error-text">
-          <pre v-html="colorizedErrorLog"></pre>
-        </div>
+  <Transition name="backdrop">
+    <div v-if="visible" id="backdrop" @click="$emit('backdrop-clicked')"></div>
+  </Transition>
+  <Transition name="error-pane">
+    <div v-if="visible" id="error-pane">
+      <div id="error-title">
+        <h4>Detailed Error Log</h4>
       </div>
-    </Transition>
-  </div>
+      <div id="error-text">
+        <pre v-html="colorizedErrorLog"></pre>
+      </div>
+    </div>
+  </Transition>
 </template>
 
 <script>
@@ -36,7 +34,7 @@ export default {
 </script>
 
 <style scoped>
-.error-pane {
+#error-pane {
   position: fixed;
   top: 3%;
   display: grid;
@@ -52,11 +50,11 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.1) 0 5px 30px;
 }
 
-.error-title {
+#error-title {
   grid-column: 1;
   grid-row: 1;
 }
-.error-text {
+#error-text {
   grid-column: 1;
   grid-row: 2;
   text-align: left;
@@ -64,7 +62,7 @@ export default {
   margin: 6px;
 }
 
-.backdrop {
+#backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -95,7 +93,7 @@ export default {
 }
 
 @media (prefers-color-scheme: dark) {
-  .error-pane {
+  #error-pane {
     background: #303030f5;
   }
 }
