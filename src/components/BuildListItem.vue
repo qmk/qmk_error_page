@@ -15,7 +15,7 @@
 import { format } from 'timeago.js'
 
 export default {
-  name: 'StatusItem',
+  name: 'BuildListItem',
   props: {
     keyboardItem: Object
   },

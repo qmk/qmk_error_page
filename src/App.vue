@@ -77,15 +77,15 @@ export default {
       let obj = reduce(
         this.buildLog,
         (acc, value, key) => {
-          let statusItem = {
+          let item = {
             passed: value.works,
             key: key,
             lastTested: new Date(value.last_tested * 1000)
           }
           if (value.works) {
-            acc.good.push(statusItem)
+            acc.good.push(item)
           } else {
-            acc.bad.push(statusItem)
+            acc.bad.push(item)
           }
           return acc
         },
