@@ -5,7 +5,7 @@
     <h2>Loading Data… {{ loadProgress }}%</h2>
   </div>
   <div v-else>
-    <input v-model="filter" id="keyboard-filter" placeholder="filter keyboards" />
+    <input v-model="filter" id="filter" placeholder="filter keyboards" />
     <h5>Loaded in {{ (loadTime / 1000).toFixed(2) }} seconds</h5>
     <BuildList :list="failingKeyboards" :filter="filter" @show-error-pane="showErrors">
       Builds Failing
@@ -114,7 +114,7 @@ body {
   margin-top: 60px;
 }
 
-#keyboard-filter {
+#filter {
   padding: 12px;
   width: 20%;
   font-size: 1.1rem;
@@ -123,10 +123,10 @@ body {
   border: none;
   border-radius: 8px;
 }
-#keyboard-filter:hover {
+#filter:hover {
   background: #ddd;
 }
-#keyboard-filter:focus {
+#filter:focus {
   outline: none;
   background: #d0d0d0;
 }
@@ -136,7 +136,7 @@ body {
 }
 
 @media (max-width: 640px) {
-  #keyboard-filter {
+  #filter {
     width: 80%;
   }
 }
@@ -147,14 +147,14 @@ body {
     color: #ced9e4;
   }
 
-  #keyboard-filter {
+  #filter {
     background: #1c1c1c;
     color: #ced9e4;
   }
-  #keyboard-filter:hover {
+  #filter:hover {
     background: #2c2c2c;
   }
-  #keyboard-filter:focus {
+  #filter:focus {
     background: #303030;
   }
 }

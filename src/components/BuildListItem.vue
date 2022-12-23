@@ -1,6 +1,6 @@
 <template>
   <div
-    class="keyboard-status"
+    class="build-list-item"
     :class="keyboardItem.passed ? 'passed' : 'failed'"
     :title="lastTestedTitle"
   >
@@ -40,7 +40,7 @@ ${lastTested.toISOString()}`
 </script>
 
 <style scoped>
-.keyboard-status {
+.build-list-item {
   cursor: pointer;
   color: #eee;
   margin: 5px;
@@ -55,17 +55,17 @@ ${lastTested.toISOString()}`
   justify-content: center;
 }
 
-.keyboard-status.passed {
+.build-list-item.passed {
   background: #2e8b57;
 }
-.keyboard-status.passed:hover {
+.build-list-item.passed:hover {
   background: #3f9c68;
 }
 
-.keyboard-status.failed {
+.build-list-item.failed {
   background: #b22222;
 }
-.keyboard-status.failed:hover {
+.build-list-item.failed:hover {
   background: #c33333;
 }
 </style>

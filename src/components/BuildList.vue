@@ -1,6 +1,6 @@
 <template>
   <h3><slot /> ({{ filteredItems.length }})</h3>
-  <div class="build-status">
+  <div class="build-list">
     <BuildListItem v-for="k in filteredItems" :keyboardItem="k" :key="k.key" @click="$emit('showErrorPane', k.key)" />
   </div>
 </template>
@@ -25,14 +25,14 @@ export default {
 </script>
 
 <style scoped>
-.build-status {
+.build-list {
   display: grid;
   grid-template: 1fr / repeat(5, 20%);
   grid-auto-rows: 1fr;
 }
 
 @media (max-width: 640px) {
-  .build-status {
+  .build-list {
     display: grid;
     grid-template: 1fr / 50% 50%;
   }
