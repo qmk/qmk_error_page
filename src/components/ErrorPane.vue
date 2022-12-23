@@ -1,6 +1,6 @@
 <template>
   <Transition name="backdrop">
-    <div v-if="visible" id="backdrop" @click="$emit('backdrop-clicked')"></div>
+    <div v-if="visible" id="backdrop" @click="$emit('backdropClicked')"></div>
   </Transition>
   <Transition name="error-pane">
     <div v-if="visible" id="error-pane">
@@ -25,6 +25,7 @@ export default {
     errorLog: String,
     visible: Boolean
   },
+  emits: ['backdropClicked'],
   computed: {
     colorizedErrorLog() {
       return ansiConverter.toHtml(this.errorLog)

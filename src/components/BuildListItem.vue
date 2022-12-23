@@ -3,7 +3,6 @@
     class="keyboard-status"
     :class="keyboardItem.passed ? 'passed' : 'failed'"
     :title="lastTestedTitle"
-    @click="$emit('show-error-pane', keyboardItem.key)"
   >
     {{ vendorName }}
     <br />

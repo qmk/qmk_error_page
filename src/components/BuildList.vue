@@ -1,7 +1,7 @@
 <template>
   <h3><slot /> ({{ filteredItems.length }})</h3>
   <div class="build-status">
-    <BuildListItem v-for="k in filteredItems" :keyboardItem="k" :key="k.key" v-bind="$attrs" />
+    <BuildListItem v-for="k in filteredItems" :keyboardItem="k" :key="k.key" @click="$emit('showErrorPane', k.key)" />
   </div>
 </template>
 
@@ -15,6 +15,7 @@ export default {
     list: Array,
     filter: String
   },
+  emits: ['showErrorPane'],
   computed: {
     filteredItems() {
       return this.list.filter((k) => k.key.toLowerCase().includes(this.filter.toLowerCase()))
