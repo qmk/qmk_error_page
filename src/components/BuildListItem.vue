@@ -16,7 +16,10 @@ import { format } from 'timeago.js'
 export default {
   name: 'BuildListItem',
   props: {
-    keyboardItem: Object
+    keyboardItem: {
+      type: Object,
+      required: true
+    }
   },
   computed: {
     keyboardName() {

@@ -12,8 +12,14 @@ export default {
   name: 'BuildList',
   components: { BuildListItem },
   props: {
-    list: Array,
-    filter: String
+    list: {
+      type: Array,
+      required: true
+    },
+    filter: {
+      type: String,
+      required: true
+    }
   },
   emits: ['showErrorPane'],
   computed: {

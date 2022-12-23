@@ -22,8 +22,14 @@ const ansiConverter = new Convert({ escapeXML: true })
 export default {
   name: 'ErrorPane',
   props: {
-    errorLog: String,
-    visible: Boolean
+    errorLog: {
+      type: String,
+      required: true
+    },
+    visible: {
+      type: Boolean,
+      required: true
+    }
   },
   emits: ['backdropClicked'],
   computed: {
