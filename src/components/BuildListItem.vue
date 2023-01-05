@@ -10,36 +10,34 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from 'vue'
+
 import { format } from 'timeago.js'
 
-export default {
-  name: 'BuildListItem',
-  props: {
-    keyboardItem: {
-      type: Object,
-      required: true
-    }
-  },
-  computed: {
-    keyboardName() {
-      const { key } = this.keyboardItem
-      const firstSlash = key.indexOf('/')
-
-      if (firstSlash < 0) return ''
-
-      return key.slice(firstSlash + 1, key.length)
-    },
-    vendorName() {
-      return this.keyboardItem.key.split('/')[0]
-    },
-    lastTestedTitle() {
-      const { lastTested } = this.keyboardItem
-      return `Last tested: ${format(lastTested)} (${lastTested.toLocaleString()})
-${lastTested.toISOString()}`
-    }
+const props = defineProps({
+  keyboardItem: {
+    type: Object,
+    required: true
   }
-}
+})
+
+const keyboardName = computed(() => {
+  const { key } = props.keyboardItem
+  const firstSlash = key.indexOf('/')
+
+  if (firstSlash < 0) return ''
+
+  return key.slice(firstSlash + 1, key.length)
+})
+
+const vendorName = computed(() => props.keyboardItem.key.split('/')[0])
+
+const lastTestedTitle = computed(() => {
+  const { lastTested } = props.keyboardItem
+  return `Last tested: ${format(lastTested)} (${lastTested.toLocaleString()})
+${lastTested.toISOString()}`
+})
 </script>
 
 <style scoped>

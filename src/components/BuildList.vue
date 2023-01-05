@@ -1,33 +1,36 @@
 <template>
   <h3><slot /> ({{ filteredItems.length }})</h3>
   <div class="build-list">
-    <BuildListItem v-for="k in filteredItems" :keyboardItem="k" :key="k.key" @click="$emit('showErrorPane', k.key)" />
+    <BuildListItem
+      v-for="k in filteredItems"
+      :keyboardItem="k"
+      :key="k.key"
+      @click="emit('showErrorPane', k.key)"
+    />
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from 'vue'
+
 import BuildListItem from '@/components/BuildListItem.vue'
 
-export default {
-  name: 'BuildList',
-  components: { BuildListItem },
-  props: {
-    list: {
-      type: Array,
-      required: true
-    },
-    filter: {
-      type: String,
-      required: true
-    }
+const props = defineProps({
+  list: {
+    type: Array,
+    required: true
   },
-  emits: ['showErrorPane'],
-  computed: {
-    filteredItems() {
-      return this.list.filter((k) => k.key.toLowerCase().includes(this.filter.toLowerCase()))
-    }
+  filter: {
+    type: String,
+    required: true
   }
-}
+})
+
+const emit = defineEmits(['showErrorPane'])
+
+const filteredItems = computed(() =>
+  props.list.filter(({ key }) => key.toLowerCase().includes(props.filter.toLowerCase()))
+)
 </script>
 
 <style scoped>

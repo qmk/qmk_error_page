@@ -17,86 +17,85 @@
   </div>
 </template>
 
-<script>
-import BuildList from '@/components/BuildList.vue'
-import ErrorPane from '@/components/ErrorPane.vue'
+<script setup>
+import { onMounted, ref } from 'vue'
 
 import axios from 'axios'
 import reduce from 'lodash/reduce'
 
-export default {
-  name: 'App',
-  components: { BuildList, ErrorPane },
-  data: () => {
-    return {
-      loading: true,
-      loadTime: '',
-      loadProgress: 0,
-      filter: '',
-      passingKeyboards: [],
-      failingKeyboards: [],
-      buildLog: {},
-      errorLog: '',
-      showErrorPane: false
-    }
-  },
-  mounted() {
-    this.downloadBuildLog()
-  },
-  methods: {
-    downloadBuildLog() {
-      const start = performance.now()
-      axios
-        .get(`${import.meta.env.VITE_QMK_API_BASEURL}/v1/keyboards/build_log`, {
-          onDownloadProgress: (e) => {
-            this.loadProgress = Math.floor((e.loaded / e.total) * 100)
-          }
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            this.buildLog = res.data
-            this.binKeyboards()
-          }
-        })
-        .then(() => {
-          this.loading = false
-          this.loadTime = ((performance.now() - start) / 1000).toFixed(2)
-        })
+import BuildList from '@/components/BuildList.vue'
+import ErrorPane from '@/components/ErrorPane.vue'
+
+let buildLog = {}
+
+const loading = ref(true)
+const loadTime = ref('')
+const loadProgress = ref(0)
+const filter = ref('')
+const passingKeyboards = ref([])
+const failingKeyboards = ref([])
+const errorLog = ref('')
+const showErrorPane = ref(false)
+
+onMounted(() => {
+  downloadBuildLog()
+})
+
+function downloadBuildLog() {
+  const start = performance.now()
+  axios
+    .get(`${import.meta.env.VITE_QMK_API_BASEURL}/v1/keyboards/build_log`, {
+      onDownloadProgress: (e) => {
+        loadProgress.value = Math.floor((e.loaded / e.total) * 100)
+      }
+    })
+    .then((res) => {
+      if (res.status === 200) {
+        buildLog = res.data
+        binKeyboards()
+      }
+    })
+    .then(() => {
+      loading.value = false
+      loadTime.value = ((performance.now() - start) / 1000).toFixed(2)
+    })
+}
+
+function showErrors(key) {
+  errorLog.value = buildLog[key].message
+  showErrorPane.value = true
+}
+
+function hideErrors() {
+  showErrorPane.value = false
+}
+
+function compareKeyboardNames(k1, k2) {
+  return k1.key < k2.key ? -1 : k1.key > k2.key ? 1 : 0
+}
+
+function binKeyboards() {
+  let obj = reduce(
+    buildLog,
+    (acc, value, key) => {
+      let item = {
+        passed: value.works,
+        key: key,
+        lastTested: new Date(value.last_tested * 1000)
+      }
+      if (value.works) {
+        acc.good.push(item)
+      } else {
+        acc.bad.push(item)
+      }
+      return acc
     },
-    showErrors(key) {
-      this.errorLog = this.buildLog[key].message
-      this.showErrorPane = true
-    },
-    hideErrors() {
-      this.showErrorPane = false
-    },
-    compareKeyboardNames(k1, k2) {
-      return k1.key < k2.key ? -1 : k1.key > k2.key ? 1 : 0
-    },
-    binKeyboards() {
-      let obj = reduce(
-        this.buildLog,
-        (acc, value, key) => {
-          let item = {
-            passed: value.works,
-            key: key,
-            lastTested: new Date(value.last_tested * 1000)
-          }
-          if (value.works) {
-            acc.good.push(item)
-          } else {
-            acc.bad.push(item)
-          }
-          return acc
-        },
-        { good: [], bad: [] }
-      )
-      obj.good.sort(this.compareKeyboardNames)
-      obj.bad.sort(this.compareKeyboardNames)
-      this.passingKeyboards = obj.good
-      this.failingKeyboards = obj.bad
-    }
-  }
+    { good: [], bad: [] }
+  )
+  obj.good.sort(compareKeyboardNames)
+  obj.bad.sort(compareKeyboardNames)
+  passingKeyboards.value = obj.good
+  failingKeyboards.value = obj.bad
 }
 </script>
 

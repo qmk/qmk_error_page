@@ -1,6 +1,6 @@
 <template>
   <Transition name="backdrop">
-    <div v-if="visible" id="backdrop" @click="$emit('backdropClicked')"></div>
+    <div v-if="visible" id="backdrop" @click="emit('backdropClicked')"></div>
   </Transition>
   <Transition name="error-pane">
     <div v-if="visible" id="error-pane">
@@ -14,30 +14,27 @@
   </Transition>
 </template>
 
-<script>
+<script setup>
+import { computed } from 'vue'
+
 import Convert from 'ansi-to-html'
 
 const ansiConverter = new Convert({ escapeXML: true })
 
-export default {
-  name: 'ErrorPane',
-  props: {
-    errorLog: {
-      type: String,
-      required: true
-    },
-    visible: {
-      type: Boolean,
-      required: true
-    }
+const props = defineProps({
+  errorLog: {
+    type: String,
+    required: true
   },
-  emits: ['backdropClicked'],
-  computed: {
-    colorizedErrorLog() {
-      return ansiConverter.toHtml(this.errorLog)
-    }
+  visible: {
+    type: Boolean,
+    required: true
   }
-}
+})
+
+const emit = defineEmits(['backdropClicked'])
+
+const colorizedErrorLog = computed(() => ansiConverter.toHtml(props.errorLog))
 </script>
 
 <style scoped>
