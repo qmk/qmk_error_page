@@ -13,7 +13,7 @@
     <BuildList :list="passingKeyboards" :filter="filter" @show-error-pane="showErrors">
       Builds Passing
     </BuildList>
-    <ErrorPane :visible="showErrorPane" :error-log="errorLog" @backdrop-clicked="hideErrors" />
+    <ErrorPane :visible="showErrorPane" :error-log="errorLog" :loading="errorLogLoading" @backdrop-clicked="hideErrors" />
   </div>
 </template>
 
@@ -35,34 +35,67 @@ const filter = ref('')
 const passingKeyboards = ref([])
 const failingKeyboards = ref([])
 const errorLog = ref('')
+const errorLogLoading = ref(false)
 const showErrorPane = ref(false)
 
 onMounted(() => {
-  downloadBuildLog()
+  loadBuildSummary()
 })
 
-function downloadBuildLog() {
+async function loadBuildSummary() {
   const start = performance.now()
-  axios
-    .get(`${import.meta.env.VITE_QMK_API_BASEURL}/v1/keyboards/build_log`, {
-      onDownloadProgress: (e) => {
-        loadProgress.value = Math.floor((e.loaded / e.total) * 100)
+
+  try {
+    const { status, data } = await axios.get(
+      `${import.meta.env.VITE_QMK_API_BASEURL}/v1/keyboards/build_summary`,
+      {
+        onDownloadProgress: (e) => {
+          loadProgress.value = Math.floor((e.loaded / e.total) * 100)
+        }
       }
-    })
-    .then((res) => {
-      if (res.status === 200) {
-        buildLog = res.data
-        binKeyboards()
-      }
-    })
-    .then(() => {
-      loading.value = false
-      loadTime.value = ((performance.now() - start) / 1000).toFixed(2)
-    })
+    )
+
+    if (status === 200) {
+      buildLog = data
+      binKeyboards()
+    }
+  } catch (e) {
+    console.log(e.message)
+  }
+
+  loading.value = false
+  loadTime.value = ((performance.now() - start) / 1000).toFixed(2)
+}
+
+async function loadBuildLog(keyboard) {
+  errorLogLoading.value = true
+
+  try {
+    const { status, statusText, data } = await axios.get(
+      `${import.meta.env.VITE_QMK_API_BASEURL}/v1/keyboards/${keyboard}/build_log`
+    )
+
+    if (status === 200) {
+      buildLog[keyboard].message = data.message
+      errorLog.value = data.message
+    } else {
+      buildLog[keyboard].message = `ERROR ${status}: ${statusText}`
+    }
+  } catch (e) {
+    buildLog[keyboard].message = `ERROR: ${e.message}`
+  }
+
+  errorLogLoading.value = false;
+  errorLog.value = buildLog[keyboard].message
 }
 
 function showErrors(key) {
-  errorLog.value = buildLog[key].message
+  if (!('message' in buildLog[key])) {
+    loadBuildLog(key)
+  } else {
+    errorLog.value = buildLog[key].message
+  }
+
   showErrorPane.value = true
 }
 

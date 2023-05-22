@@ -8,7 +8,8 @@
         <h4>Detailed Error Log</h4>
       </div>
       <div id="error-text">
-        <pre v-html="colorizedErrorLog"></pre>
+        <p v-if="loading" id="error-loading">Loading…</p>
+        <pre v-else v-html="colorizedErrorLog"></pre>
       </div>
     </div>
   </Transition>
@@ -24,6 +25,10 @@ const ansiConverter = new Convert({ escapeXML: true })
 const props = defineProps({
   errorLog: {
     type: String,
+    required: true
+  },
+  loading: {
+    type: Boolean,
     required: true
   },
   visible: {
@@ -64,6 +69,9 @@ const colorizedErrorLog = computed(() => ansiConverter.toHtml(props.errorLog))
   text-align: left;
   overflow: auto;
   margin: 6px;
+}
+#error-loading {
+  text-align: center;
 }
 
 #backdrop {
