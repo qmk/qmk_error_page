@@ -10,6 +10,9 @@
     <BuildList :list="failingKeyboards" :filter="filter" @show-error-pane="showErrors">
       Builds Failing
     </BuildList>
+    <BuildList :list="warningKeyboards" :filter="filter" @show-error-pane="showErrors">
+      Builds Warning
+    </BuildList>
     <BuildList :list="passingKeyboards" :filter="filter" @show-error-pane="showErrors">
       Builds Passing
     </BuildList>
@@ -33,6 +36,7 @@ const loadTime = ref('')
 const loadProgress = ref(0)
 const filter = ref('')
 const passingKeyboards = ref([])
+const warningKeyboards = ref([])
 const failingKeyboards = ref([])
 const errorLog = ref('')
 const errorLogLoading = ref(false)
@@ -113,21 +117,28 @@ function binKeyboards() {
     (acc, value, key) => {
       let item = {
         passed: value.works,
+        warnings: value.warnings,
         key: key,
         lastTested: new Date(value.last_tested * 1000)
       }
-      if (value.works) {
-        acc.good.push(item)
+      if (item.passed) {
+        if (item.warnings) {
+          acc.warn.push(item)
+        } else {
+          acc.good.push(item)
+        }
       } else {
         acc.bad.push(item)
       }
       return acc
     },
-    { good: [], bad: [] }
+    { good: [], warn: [], bad: [] }
   )
   obj.good.sort(compareKeyboardNames)
+  obj.warn.sort(compareKeyboardNames)
   obj.bad.sort(compareKeyboardNames)
   passingKeyboards.value = obj.good
+  warningKeyboards.value = obj.warn
   failingKeyboards.value = obj.bad
 }
 </script>
