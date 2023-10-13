@@ -1,7 +1,7 @@
 <template>
   <div
     class="build-list-item"
-    :class="keyboardItem.passed ? 'passed' : 'failed'"
+    :class="keyboardItem.passed ? (keyboardItem.warnings ? 'warning' : 'passed') : 'failed'"
     :title="lastTestedTitle"
   >
     {{ vendorName }}
@@ -61,6 +61,13 @@ ${lastTested.toISOString()}`
 }
 .build-list-item.passed:hover {
   background: #3f9c68;
+}
+
+.build-list-item.warning {
+  background: #be863b;
+}
+.build-list-item.warning:hover {
+  background: #cf973b;
 }
 
 .build-list-item.failed {
