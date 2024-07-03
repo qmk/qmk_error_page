@@ -1,7 +1,6 @@
 <template>
   <h1>QMK API Keyboard Status</h1>
   <div v-if="loading" id="loading">
-    <font-awesome-icon icon="atom" spin size="6x" fixed-width />
     <ProgressBar :progress="loadProgress" />
   </div>
   <div v-else>
