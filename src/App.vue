@@ -1,8 +1,7 @@
 <template>
   <h1>QMK API Keyboard Status</h1>
   <div v-if="loading" id="loading">
-    <font-awesome-icon icon="atom" spin size="6x" fixed-width />
-    <h2>Loading Data… {{ loadProgress }}%</h2>
+    <ProgressBar :progress="loadProgress" />
   </div>
   <div v-else>
     <input v-model="filter" id="filter" placeholder="filter keyboards" />
@@ -16,7 +15,12 @@
     <BuildList :list="passingKeyboards" :filter="filter" @show-error-pane="showErrors">
       Builds Passing
     </BuildList>
-    <ErrorPane :visible="showErrorPane" :error-log="errorLog" :loading="errorLogLoading" @backdrop-clicked="hideErrors" />
+    <ErrorPane
+      :visible="showErrorPane"
+      :error-log="errorLog"
+      :loading="errorLogLoading"
+      @backdrop-clicked="hideErrors"
+    />
   </div>
 </template>
 
@@ -28,6 +32,7 @@ import reduce from 'lodash/reduce'
 
 import BuildList from '@/components/BuildList.vue'
 import ErrorPane from '@/components/ErrorPane.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 let buildLog = {}
 
@@ -89,7 +94,7 @@ async function loadBuildLog(keyboard) {
     buildLog[keyboard].message = `ERROR: ${e.message}`
   }
 
-  errorLogLoading.value = false;
+  errorLogLoading.value = false
   errorLog.value = buildLog[keyboard].message
 }
 
@@ -176,6 +181,10 @@ body {
 
 #loading {
   margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
 }
 
 @media (max-width: 640px) {
