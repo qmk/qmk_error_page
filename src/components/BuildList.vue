@@ -1,6 +1,6 @@
 <template>
   <h3><slot /> ({{ filteredItems.length }})</h3>
-  <div class="build-list">
+  <div class="build-list" v-if="filteredItems.length">
     <BuildListItem
       v-for="k in filteredItems"
       :keyboardItem="k"
@@ -8,6 +8,7 @@
       @click="emit('showErrorPane', k.key)"
     />
   </div>
+  <div v-else>No items to show.</div>
 </template>
 
 <script setup>
