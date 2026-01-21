@@ -11,7 +11,7 @@
   "dependencies": {
     "ansi-to-html": "^0.7.2",
     "axios": "^1.4.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "timeago.js": "^4.0.2",
     "vue": "^3.2.47"
   },
